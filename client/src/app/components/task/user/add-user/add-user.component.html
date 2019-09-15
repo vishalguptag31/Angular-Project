@@ -1,0 +1,76 @@
+<div class="container bottom_80">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-task padding_0">
+    <form class="form-horizontal" name="userForm" #userForm="ngForm" (ngSubmit)="userForm.valid && !emailExists && addUser(userForm)"
+      novalidate>
+      <h3 class="task_head">
+        Add User
+      </h3>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margin_auto">
+        <label *ngIf="showMessage" for="inputEmail3" class="col-sm-12 text-center">{{message}}</label>
+        <div class="form-group top_15">
+          <label for="inputEmail3" class="col-sm-4 control-label">Name *</label>
+          <div class="col-sm-8">
+            <input type="text" name="userName" [(ngModel)]="user.full_name" class="form-control border-radius-none" placeholder="Enter name"
+              required #userName="ngModel" autocomplete="off" required>
+            <span *ngIf="!userName.valid && userForm.submitted" class="error-text">Name is required.</span>
+          </div>
+        </div>
+        <div class="form-group top_15">
+          <label for="inputEmail3" class="col-sm-4 control-label">Email *</label>
+          <div class="col-sm-8">
+
+            <input type="email" name="email" [(ngModel)]="user.email" class="form-control border-radius-none" placeholder="Enter email"
+              required #email="ngModel" (blur)="trimField();" validate-event="blur" autocomplete="off"
+              required pattern="^[a-zA-Z0-9](?!.*?[^\na-zA-Z0-9]{2}).*?[a-zA-Z0-9]{1,20}@(?:[a-zA-Z0-9-]{2,}\.)[a-zA-Z]{2,4}$">
+            <span *ngIf="(!user.email && userForm.submitted)" class="error-text">Email address is required.</span>
+            <span *ngIf="(user.email && !email.valid && userForm.submitted)" class="error-text">Please enter a valid email.</span>
+           
+            <span class="error-text" *ngIf="!!emailExists">The email already exists in your user list.</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword3" class="col-sm-4 control-label">Phone Number *</label>
+          <div class="col-sm-8">
+            <input type="text" name="phoneNumber" [(ngModel)]="user.phone_number" class="form-control border-radius-none" placeholder="Enter phone number"
+              pattern="^[0-9]*$" required #phoneNumber="ngModel" maxlength="10" minlength="10" validate-event="blur" autocomplete="off"
+              required>
+            <span *ngIf="(user.phone_number && !phoneNumber.valid && userForm.submitted)" class="error-text">Please enter a valid phone number.</span>
+            <span *ngIf="!user.phone_number && userForm.submitted" class="error-text">Phone number is required.</span>
+          </div>
+        </div>
+
+        <div class="form-group top_15">
+          <label for="inputEmail3" class="col-sm-4 control-label">Password *</label>
+          <div class="col-sm-8">
+            <input type="password" name="password" [(ngModel)]="user.password" class="form-control border-radius-none" placeholder="Enter password"
+              required #password="ngModel" (blur)="trimField()" validate-event="blur" autocomplete="off" required>
+            <span *ngIf="!password.valid && userForm.submitted" class="error-text">Password is required.</span>
+          </div>
+        </div>
+        <div class="top_15">
+          <button type="submit" class="btn btn-primary pull-right">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ng-template #existingUser>
+  <div class="modal-header" style="background:#3c8dbc;color:#fff;">
+    <strong>NOTE : </strong>
+    <button type="button" class="close" (click)="modalRef.hide();">&times;</button>
+  </div>
+
+  <div class="modal-body">
+    <p>An user named
+      <strong>{{existingUserToRelate.full_name}}</strong> with the email address
+      <strong>{{existingUserToRelate.email}}</strong> already exists.</p>
+    <p>Do you want to add this user in your list?</p>
+    <div class="top_15">
+      <button type="button" class="btn btn-default" (click)="modalRef.hide()">Cancel</button>
+      <button type="button" class="btn btn-primary pull-right" (click)="addUserRelation(userForm)">Add</button>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-loading [show]="enableLoader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>

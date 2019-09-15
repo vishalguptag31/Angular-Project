@@ -1,0 +1,489 @@
+html, body {
+    position: relative;
+}
+
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+.padding_0{
+	padding: 0px!important;
+}
+
+.bottom_0{
+	margin-bottom: 0px;
+}
+
+.form-signin {
+    background-color: #fff;
+    margin: 0 auto;
+    max-width: 400px;
+    padding: 25px 30px 25px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.wrapper {
+    margin-bottom: 100px;
+    margin-top: 100px;
+}
+
+.form-task{
+	 border: 1px solid rgba(0, 0, 0, 0.1);
+	 margin-top: 30px;
+}
+
+.border-radius-none{
+	border-radius:0;
+}
+
+.btn-block{
+	background: #3b3939!important;
+	color: #fff;
+	border-color: #3b3939;
+	border-radius:0;
+}
+
+.btn-block:hover,.btn-block:focus{
+	border-color: #3b3939;
+	color: #fff!important;
+}
+
+.top_10{
+	margin-top: 10px;
+}
+
+.top_15{
+	margin-top: 15px;
+}
+
+.border_bottom{
+	border-bottom: 2px solid #1f5463;
+	border-radius: 0;
+}
+
+.footer {
+    background-color: rgba(0, 0, 0, 0.8);
+	bottom: 0;
+	color: #3c8dbc;
+    float: left;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+}
+
+.task_head{
+	background: #3c8dbc;	
+	font-size: 20px;
+    margin: 0;
+    padding: 5px 0 5px 10px;
+	color: #fff;
+}
+
+.padding_15_right_left{
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.form-horizontal .control-label{
+	text-align: left;
+}
+
+.margin_auto{
+	float: none;
+    margin: 0 auto;
+}
+
+.save_botton{
+	background: #000;
+	color: #fff;
+	border: none;
+	border-radius: 2px;
+}
+
+.save_botton:hover{
+	background: #000;
+	color: #fff;
+}
+
+.reset_botton:hover{
+	background: #f39c12;
+	color: #fff;
+}
+
+.reset_botton{
+	background: #f39c12;
+	color: #fff;
+	border: none;
+	border-radius: 2px;
+}
+
+.has-success .input-group-addon{
+	background-color: #fff;
+}
+
+.plus_icon{
+	background: #00a65a;
+	color: #fff;
+	cursor: pointer;
+    font-size: 15px!important;
+    padding: 8px 15px;
+}
+
+.thead_background{
+	background: #d4e6f1!important;
+}
+
+.font_size_15{
+	font-size: 15px!important;
+}
+
+.text_center_1025{
+	text-align: center;
+}
+
+.right_5{
+	margin-right: 5px;
+}
+
+.bottom_80{
+	margin-bottom: 80px;
+}
+
+.top_15_0{
+	margin-top: 15px;
+}
+
+.border_box{
+	border: 1px solid #eeeeee;
+	margin-top: 150px;
+	padding: 20px;
+}
+
+.dash{
+	text-align: center;
+	color: #3c8dbc;
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+.flaoat_width{
+	float: left;
+	width: 100%;
+}
+
+.clear_both{
+	clear: both;
+}
+
+.close{
+	color: #fff;
+	opacity: 1;
+	font-size: 12px;
+}
+
+.border_1{
+	border: 1px solid #d9d9d9;
+}
+
+.top_35{
+	margin-top: 35px;
+}
+
+.bottom_35{
+	margin-bottom: 35px;
+}
+
+.bottom_20{
+	margin-bottom: 20px;
+}
+
+/*=========================== Table Css ==============================*/
+
+.table-bordered {
+	border: 1px solid #ddd;
+}
+
+.table {
+	margin-bottom: 20px;
+}
+
+.home,
+table {
+	background-color: transparent;
+	width: 100%;
+}
+
+.home,
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.home,
+td,
+th {
+	border: 1px solid #ccc;
+	padding: 6px;
+	text-align: left;
+}
+
+.home,
+.table-bordered>thead>tr>th,
+.table-bordered>tbody>tr>th,
+.table-bordered>tfoot>tr>th,
+.table-bordered>thead>tr>td,
+.table-bordered>tbody>tr>td,
+.table-bordered>tfoot>tr>td {
+	border: 1px solid #d9d9d9 !important;
+	white-space: nowrap;
+	font-size: 12px;
+}
+
+
+  /*
+  Max width before this PARTICULAR table gets nasty
+  This query will take effect for any screen smaller than 760px
+  and also iPads specifically.
+  */
+
+@media only screen and (max-width: 1024px) {
+
+  	/* Force table to not be like tables anymore */
+
+	table, thead, tbody, th, td, tr {
+		display: block;
+		padding: 2px;
+		font-size: 12px;
+		min-height: 32px;
+	}
+
+  	/* Hide table headers (but not display: none;, for accessibility) */
+
+thead tr {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}
+
+.text_center_1025{
+	text-align: left!important;
+}
+
+.width_25 {
+	width: 100%!important;
+}
+
+tr {
+	border: 1px solid #ccc;
+}
+
+.thead_background {
+	background: none!important;
+}
+
+td {
+	/* Behave  like a "row" */
+	border: none;
+	border-bottom: 1px solid #eee;
+	position: relative;
+	padding-left: 50%;
+}
+
+td:before {
+	/* Now like a table header */
+	position: absolute;
+	/* Top/left values mimic padding */
+	top: 6px;
+	left: 6px;
+	width: 45%;
+	padding-right: 10px;
+	white-space: normal;
+	font-weight: bold;
+	color: #4a515b;
+}
+
+.table-responsive>.table>tbody>tr>td,
+.table-responsive>.table>tbody>tr>th,
+.table-responsive>.table>tfoot>tr>td,
+.table-responsive>.table>tfoot>tr>th,
+.table-responsive>.table>thead>tr>td,
+.table-responsive>.table>thead>tr>th {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.home, td, th {
+	border: 0px solid #ccc !important;
+	padding: 6px;
+	text-align: left;
+}
+
+.left_50 {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: -moz-use-text-color -moz-use-text-color #eee;
+  border-image: none;
+  border-style: none none solid;
+  border-width: medium medium 1px;
+  padding-left: 50% !important;
+  position: relative;
+  min-height: 40px;
+  font-size: 10px!important;
+  /*overflow: scroll;*/
+}
+
+.table_border_top{
+	border-top:none!important;
+}
+
+/*===========================Task List===============================*/
+
+#Task_List > tr > td:nth-of-type(1):before {
+  content: "Task ID";
+}
+
+#Task_List > tr > td:nth-of-type(2):before {
+  content: "Task Name";
+}
+
+#Task_List > tr > td:nth-of-type(3):before {
+  content: "Description";
+}
+
+#Task_List > tr > td:nth-of-type(4):before {
+  content: "Priority";
+}
+
+#Task_List > tr > td:nth-of-type(5):before {
+  content: "Assigned To";
+}
+
+#Task_List > tr > td:nth-of-type(6):before {
+  content: "Create Date";
+}
+
+#Task_List > tr > td:nth-of-type(7):before {
+  content: "Critical Date";
+}
+
+#Task_List > tr > td:nth-of-type(8):before {
+  content: "Completion Date";
+}
+
+#Task_List > tr > td:nth-of-type(9):before {
+  content: "Status";
+}
+
+#Task_List > tr > td:nth-of-type(10):before {
+  content: "Action";
+}
+
+/*===========================Task List===============================*/
+
+@media screen and (min-width: 300px) and (max-width: 767px) {
+
+	.media_padding_0{
+		padding: 0px!important;
+	}
+
+	.form-signin{
+		padding: 25px 15px!important;
+	}
+
+	.top_15_0{
+		margin-top: 0px!important;
+	}
+
+	.margin_10_767{
+		margin-top: 10px!important;
+	}
+
+	.padding_0_768{
+		padding-left: 15px!important;
+		padding-right: 15px!important;
+	}
+}
+}
+.error-text {
+    color: #ef3636;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+.task{
+	padding-top: 7px!important;
+	padding-bottom: 7px!important;
+	border: 1px solid;
+	margin-left: 10px;
+}
+
+.user_padding{
+	padding-top: 7px!important;
+	padding-bottom: 7px!important;
+}
+
+.padding_0_768{
+	padding: 0px;
+}
+
+.isCompleted{
+	color: green;
+	font-size: 14px;
+}
+
+.cursor-pointer{
+	cursor: pointer
+}
+
+.word_break{
+	word-break: break-all;
+}
+
+.white_normal{
+	white-space: normal!important;
+}
+.bg_white{
+	background-color: #fff!important;
+}
+
+.theme-green .bs-datepicker-head{
+	background-color: #3c8dbc!important;
+}
+.theme-green .bs-datepicker-body table td.week span {
+	color: #3c8dbc!important;
+}
+.theme-green .bs-datepicker-body table td span.selected, .theme-green .bs-datepicker-body table td.selected span, .theme-green .bs-datepicker-body table td span[class*="select-"]::after, .theme-green .bs-datepicker-body table td[class*="select-"] span::after {
+    background-color:  #3c8dbc!important;
+}
+
+.backdrop[_ngcontent-c3] {
+	position: fixed !important;
+	border-radius: 0 !important;
+	font-size: 40px;
+}
+
+.spinner-three-bounce[_ngcontent-c3] {
+    width: 160px!important;
+}
+
+.spinner-three-bounce[_ngcontent-c3] > div[_ngcontent-c3] {
+    width: 44px !important;
+    height: 44px !important;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.btn-primary {
+    background-color: #3c8dbc!important;
+}
+
+.brand-logo {
+    width: 50%;
+    margin-top: 15px;
+}

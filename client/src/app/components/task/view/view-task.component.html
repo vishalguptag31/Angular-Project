@@ -1,0 +1,219 @@
+<div class="container bottom_80">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-task padding_0">
+        <button *ngIf="(manageTaskData.length + myTaskData.length) > 0" type="button" class="btn pull-right" (click)="exportAsExcel()" title="Export tasks to excel">
+                <i class="glyphicon glyphicon-export"></i>
+        </button>
+        <tabset>
+            <tab heading="Manage Task" id="tab1">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 top_15_0 pull-right text-right media_padding_0">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-primary right_5" routerLink="add">Add task</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 top_30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 media_padding_0">
+                        <table class="table table-striped table-bordered">
+                            <thead class="home thead_background" *ngIf="manageTaskData.length>0">
+                                <tr>
+                                    <th>Task ID</th>
+                                    <th>Task Name</th>
+                                    <th>Category Name
+                                        <i (click)="sortByCategory(manageTaskData,manageTask)" class="glyphicon glyphicon-sort"></i>
+                                    </th>
+                                    <th>Description</th>
+                                    <th>Priority</th>
+                                    <th>Assigned To
+                                        <i (click)="sortByUser(manageTaskData,manageTask)" class="glyphicon glyphicon-sort"></i>
+                                    </th>
+                                    <th>Create Date</th>
+                                    <th>Completion Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="manageTaskData.length>0" id="Task_List">
+                                <tr *ngFor="let task of manageTaskData;let i =index">
+                                    <td class="left_50">{{task.id}}</td>
+                                    <td class="left_50">{{task.task_name}}</td>
+                                    <td class="left_50">{{task.category_name}}</td>
+                                    <td class="left_50 word_break white_normal">{{task.description}}</td>
+                                    <td class="left_50">{{task.priority}}</td>
+                                    <td class="left_50">{{task.full_name== null?'All User':task.full_name}}</td>
+                                    <td class="left_50">{{task.created_date|date:'longDate'}}</td>
+                                    <td class="left_50">{{task.completion_date|date:'longDate'}}</td>
+                                    <td class="left_50" [ngClass]="{'error-text':task.is_delayed==1, 'isCompleted':task.is_delayed!=1 && task.status=='completed'}"
+                                        [title]="task.is_delayed==1?getDelayedDays(task.completion_date,task.completed_on):''">
+                                        <span class="capitalize">{{task.isDelayed==1?'Delayed':task.status}} </span>
+                                    </td>
+                                    <td class="left_50 text_center_1025">
+                                        <i class="cursor-pointer glyphicon glyphicon-edit right_5 font_size_15" title="Edit" routerLink="/task/edit/{{task.id}}"></i>
+                                        <i class="glyphicon glyphicon-trash font_size_15" aria-hidden="true" title="Delete" (click)="modelTaskDeleted(deleteTask,task.id)"></i>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_1 bottom_20" *ngIf="manageTaskData.length==0">
+                            <p class="text-center bottom_35 top_35">No data found</p>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+
+            <tab heading="My Task">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 top_15_0 pull-right text-right media_padding_0">
+                        <div class="form-group">
+
+
+                            <!-- <button *ngIf="myTaskData.length >0" type="button" class="btn btn-primary right_5" >
+                                           Sort by category
+                                        </button>
+                                        <button *ngIf="myTaskData.length >0" type="button" class="btn btn-primary right_5">
+                                            Sort by user
+                                        </button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 top_30">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 media_padding_0">
+                        <table class="table table-striped table-bordered">
+                            <thead class="home thead_background" *ngIf="myTaskData.length>0">
+                                <tr>
+                                    <th>Task ID</th>
+                                    <th>Task Name</th>
+                                    <th>Category Name
+                                        <i (click)="sortByCategory(myTaskData,myTask)" class="glyphicon glyphicon-sort"></i>
+                                    </th>
+                                    <th>Description</th>
+                                    <th>Priority</th>
+                                    <th>Assigned By
+                                        <i (click)="sortByUser(myTaskData,myTask)" class="glyphicon glyphicon-sort"></i>
+                                    </th>
+                                    <th>Create Date</th>
+                                    <th>Completion Date</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="myTaskData.length>0" id="Task_List">
+                                <tr *ngFor="let task of myTaskData;let i =index">
+                                    <td class="left_50">{{task.id}}</td>
+                                    <td class="left_50">{{task.task_name}}</td>
+                                    <td class="left_50">{{task.category_name}}</td>
+                                    <td class="left_50 word_break white_normal">{{task.description}}</td>
+                                    <td class="left_50">{{task.priority}}</td>
+                                    <td class="left_50">{{task.full_name}}</td>
+                                    <td class="left_50">{{task.created_date|date:'longDate'}}</td>
+                                    <td class="left_50">{{task.completion_date|date:'longDate'}}</td>
+                                    <td class="left_50" [ngClass]="{'error-text':task.is_delayed==1, 'isCompleted':task.is_delayed!=1 && task.status=='completed'}"
+                                        [title]="task.is_delayed==1?getDelayedDays(task.completion_date,task.completed_on):''">
+                                        <span class="capitalize">{{task.isDelayed==1?'Delayed':task.status}} </span>
+
+                                    </td>
+                                    <td class="left_50 text_center_1025" *ngIf="task.type == 'T'">
+                                        <i *ngIf="task.status=='completed'" class="glyphicon glyphicon-edit right_5" title="Edit"></i>
+                                        <i *ngIf="task.status!='completed'" (click)="OpenModal(userInfoTemplate, task)" class="glyphicon glyphicon-edit"
+                                            title="Edit"></i>
+                                    </td>
+                                    <td class="left_50 text_center_1025" *ngIf="task.type == 'P'">
+                                            <i *ngIf="task.answer!=null" class="glyphicon glyphicon-edit right_5" title="Edit"></i>
+                                            <i *ngIf="task.answer==null" (click)="OpenModal(userPollTemplate, task)" class="glyphicon glyphicon-edit"
+                                                title="Edit"></i> 
+                                        </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 border_1 bottom_20" *ngIf="myTaskData.length==0">
+                            <p class="text-center bottom_35 top_35">No data found</p>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+
+        </tabset>
+
+        <ng-template #userInfoTemplate>
+            <div class="modal-header" style="background:#3c8dbc;color:#fff;"> Update Your Status
+                <button type="button" class="close" (click)="this.modalRef.hide();clearModalData();">&times;</button>
+            </div>
+            <form class="form-horizontal" name="taskForm" #taskForm="ngForm" (ngSubmit)="taskForm.valid; submitForm(taskUpdateObj[0])"
+                novalidate>
+                <div class="modal-body">
+                    <div class="clear_both">
+                        <label>TaskId </label>: {{taskUpdateObj[0].id}}
+                    </div>
+                    <div class="clear_both">
+                        <label>Task Name </label>: {{taskUpdateObj[0].task_name}}
+                    </div>
+                    <div class="col-sm-8 form-group">
+                        <select class="form-control border-radius-none" name="status" [(ngModel)]="taskUpdateObj[0].status" placeholder="Select Status">
+                            <option [value]="undefined" disabled> Select Status </option>
+                            <option value="Pending"> Pending</option>
+                            <option value="in progress"> In Progress</option>
+                            <option value="on hold"> On Hold</option>
+                            <option value="completed"> Completed</option>
+                            <option value="cancelled"> Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="clear_both">
+                        <label>Remark</label>
+                    </div>
+                    <div class="col-sm-8 form-group">
+                        <textarea type="text" name="remark" #remark="ngModel" [(ngModel)]="taskUpdateObj[0].remark" class="form-control border-radius-none"
+                            placeholder="Remark" required validate-event="blur" autocomplete="off" rows="3"></textarea>
+                    </div>
+
+                    <div class="clear_both">
+                        <button type="submit" class="btn btn-default save_botton">Save</button>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+
+
+        <ng-template #deleteTask>
+            <div class="modal-header" style="background:#3c8dbc;color:#fff;"> Delete Task
+                <button type="button" class="close" (click)="this.modalRef.hide();">&times;</button>
+            </div>
+            <div class="modal-body">
+                    <p>Are you sure you want to delete this task?</p>
+                    <a class="btn btn-default" role="button" (click)="modalRef.hide()">Cancel</a>
+                    <a class="btn btn-danger pull-right" role="button" (click)="deleteSelectedTask();modalRef.hide();">Delete</a>
+                </div>
+        </ng-template>
+
+        <ng-template #userPollTemplate>
+                <div class="modal-header" style="background:#3c8dbc;color:#fff;"> Update Your Status
+                    <button type="button" class="close" (click)="this.modalRef.hide();">&times;</button>
+                </div>
+                <form class="form-horizontal" name="taskForm" #taskForm="ngForm" (ngSubmit)="taskForm.valid; submitForm(taskUpdateObj[0])"
+                novalidate>
+                <div class="modal-body">
+                        <div class="clear_both">
+                                <label>Task Name </label>: {{taskUpdateObj[0].task_name}}
+                            </div>
+                <div class="clear_both">
+                        <label>Remark</label>
+                    </div>
+                    <div class="col-sm-8 form-group">
+                            <textarea type="text" name="remark" #remark="ngModel" [(ngModel)]="taskUpdateObj[0].remark" class="form-control border-radius-none"
+                                placeholder="Remark" required validate-event="blur" autocomplete="off" rows="3"></textarea>
+                        </div>
+
+                    <div class="clear_both">
+                            <button type="button" class="btn btn-primary" (click)="updatePollStatus('No',taskUpdateObj[0])">No</button>
+                            <button type="button" class="btn btn-primary pull-right" (click)="updatePollStatus('Yes',taskUpdateObj[0])">Yes</button>
+                    </div>
+                    </div>
+                </form>
+            </ng-template>
+
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>

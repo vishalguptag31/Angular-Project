@@ -1,0 +1,226 @@
+<!-- Header -->
+<div class="container bottom_80">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-task padding_0">
+        <form class="form-horizontal" name="taskForm" #taskForm="ngForm" (ngSubmit)="taskForm.valid && submitForm()" novalidate>
+            <h3 class="task_head">
+                {{taskId?'Update Task':'Create Task'}}
+            </h3>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 margin_auto">               
+
+                <div class="form-group top_15">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Task Type*</label>
+                    <div class="col-sm-9">                            
+                            <select class="form-control border-radius-none" name="type" required [(ngModel)]="task.type" #type="ngModel"
+                            placeholder="Select Priority">
+                            <option value="null" disabled> Select Type </option>
+                            <option value="T"> Task</option>
+                            <option value="P"> Poll</option>                          
+                        </select>                          
+                        <span *ngIf="!type.valid && taskForm.submitted" class="error-text">Task type is required.</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group top_15">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Task Name *</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="taskName" [(ngModel)]="task.task_name" class="form-control border-radius-none" placeholder="Task Name"
+                            required #taskName="ngModel" (blur)="trimField()" validate-event="blur" minlength="1" autocomplete="off">
+                        <span *ngIf="!taskName.valid && taskForm.submitted" class="error-text">Task name is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Category *</label>
+                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                        <select class="form-control border-radius-none" name="categoryName" [(ngModel)]="task.category_id" #categoryName="ngModel"
+                            placeholder="Select category" required>
+                            <option value="null" disabled> Select Category </option>
+                            <option *ngFor="let item of categoryData" [ngValue]="item.id">
+                                {{item.category_name}}</option>
+                        </select>
+                        <span *ngIf="!categoryName.valid && taskForm.submitted" class="error-text">Please select a category.</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 padding_0_768 margin_10_767">
+                        <button type="button" class="btn btn-primary" (click)="addCategory(categoryTemplate)">Add Category</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Assigned To *</label>
+                    <div class="col-lg-7 col-md-7 col-sm-6 col-xs-12">
+                        <select class="form-control border-radius-none" [disabled]="!!isAllUser || task.user_id == 0" name="userName" required [(ngModel)]="task.user_id" #userName="ngModel" placeholder="Select User">
+                            <option value="null" disabled> Select User </option>
+                            <option *ngFor="let user of userData" [value]="user.id">
+                                {{user.full_name}}</option>                               
+                        </select>                        
+                        <span *ngIf="!userName.valid && !isAllUser && taskForm.submitted" class="error-text">Please select an assignee.</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 padding_0_768 margin_10_767">
+                        <button type="button" class="btn btn-primary right_5" (click)="addCategory(addAssigneeTemplate)">Add Assignee</button>
+                       All User <input type="checkbox" class="single-checkbox " (change)="validateCheckBox($event)" value="" [checked]="task.user_id == 0" 
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Priority *</label>
+                    <div class="col-sm-9">
+                        <select class="form-control border-radius-none" name="priority" required [(ngModel)]="task.priority" #priority="ngModel"
+                            placeholder="Select Priority">
+                            <option value="null" disabled> Select Priority </option>
+                            <option value="high"> High</option>
+                            <option value="medium"> Medium</option>
+                            <option value="normal"> Normal</option>
+                            <option value="low"> Low</option>
+                        </select>
+                        <span *ngIf="!priority.valid && taskForm.submitted" class="error-text">Please select a priority.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="PCD" class="col-sm-3 control-label">Planned Completion Date *</label>
+                    <div class="col-sm-9">
+                        <input type="text" required readonly class="form-control border-radius-none bg_white" id="PCD" name="completionDate" #completionDate="ngModel"
+                            [(ngModel)]="task.completion_date" placeholder="Completion Date" bsDatepicker [minDate]="minDate"
+                            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+                        <span *ngIf="!completionDate.valid && taskForm.submitted" class="error-text">The planned completion date is required.</span>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Planned Effort(in hrs)</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="plannedEffort" [(ngModel)]="task.planned_effort" class="form-control border-radius-none" placeholder="Planned Effort"
+                            #plannedEffort="ngModel" pattern="^[1-9]\d*(\.\d+)?$" (blur)="trimField()" validate-event="blur" minlength="1"
+                            autocomplete="off">
+                        <span *ngIf="!plannedEffort.valid && taskForm.submitted " class="error-text">Only numeric characters are allowed.</span>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Task Description *</label>
+                    <div class="col-sm-9">
+                        <textarea type="text" name="taskDescription" #taskDescription="ngModel" [(ngModel)]="task.description" class="form-control border-radius-none"
+                            placeholder="Task Description" required (blur)="trimField()" validate-event="blur" minlength="1"
+                            autocomplete="off" rows="3"></textarea>
+                        <span *ngIf="!taskDescription.valid && taskForm.submitted" class="error-text">Description is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-default save_botton pull-right">{{taskId?'Update':'Create'}}</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Add Category  Modal-->
+        <ng-template #categoryTemplate>
+            <div class="modal-header" style="background:#3c8dbc;color:#fff;">Add Category
+                <button type="button" class="close" (click)="modalRef1.hide();clearModalData()">&times;</button>
+            </div>
+            <form class="form-horizontal" name="categoryForm" #categoryForm="ngForm" (ngSubmit)="categoryForm.valid && saveCategory(categoryForm)"
+                novalidate>
+                <div class="modal-body">
+                    <p class="error-text col-sm-12 text-center" *ngIf="!!showCategory" for="inputEmail3">{{messageCategory}}</p>
+                    <div class="form-group top_15">
+                        <label for="inputEmail3" class="col-sm-4 control-label">Name</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="categoryName" [(ngModel)]="category.category_name" class="form-control border-radius-none" placeholder="Enter category name"
+                                required #categoryName="ngModel" (blur)="trimField()" validate-event="blur" autocomplete="off"
+                                required>
+                            <span *ngIf="!categoryName.valid && categoryForm.submitted" class="error-text">Category name required</span>
+                        </div>
+                    </div>
+                    <div class="top_15">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+        <!-- Add Category  Modal End-->
+
+        <!-- Add Assignee  Modal-->
+        <ng-template #addAssigneeTemplate>
+            <div class="modal-header" style="background:#3c8dbc;color:#fff;">Add assignee
+                <button type="button" class="close" (click)="modalRef1.hide();clearModalData()">&times;</button>
+            </div>
+            <form class="form-horizontal" name="assigneeForm" #assigneeForm="ngForm" (ngSubmit)="assigneeForm.valid && !isPhoneNumberExist && !isEmailExist && addAssignee(existingUser,assigneeForm)"
+                novalidate>
+                <div class="modal-body">
+                    <label *ngIf="showMessage" for="inputEmail3" class="col-sm-12 text-center">{{message}}</label>
+                    <div class="form-group top_15">
+                        <label for="inputEmail3" class="col-sm-4 control-label">Name *</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="userName" [(ngModel)]="assignee.full_name" class="form-control border-radius-none" placeholder="Enter name"
+                                required #userName="ngModel" (blur)="trimField();" validate-event="blur" autocomplete="off" required>
+                            <span *ngIf="!userName.valid && assigneeForm.submitted" class="error-text">Name is required.</span>
+                        </div>
+                    </div>
+                    <div class="form-group top_15">
+                        <label for="inputEmail3" class="col-sm-4 control-label">Email *</label>
+                        <div class="col-sm-8">
+
+                            <input type="email" name="email" [(ngModel)]="assignee.email" class="form-control border-radius-none" placeholder="Enter email"
+                                required #email="ngModel" (blur)="trimField();" validate-event="blur" autocomplete="off" required
+                                pattern="^[a-zA-Z0-9](?!.*?[^\na-zA-Z0-9]{2}).*?[a-zA-Z0-9]{1,20}@(?:[a-zA-Z0-9-]{2,}\.)[a-zA-Z]{2,4}$">
+                           
+                            <span *ngIf="(!assignee.email && assigneeForm.submitted)" class="error-text">Email address is required.</span>
+            <span *ngIf="(assignee.email && !email.valid && assigneeForm.submitted)" class="error-text">Please enter a valid email.</span>
+           
+            <span class="error-text" *ngIf="!!emailExists">The email already exists in your user list.</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-4 control-label">Phone Number *</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="phoneNumber" [(ngModel)]="assignee.phone_number" class="form-control border-radius-none" placeholder="Enter phone number"
+                                pattern="^[0-9]*$" required #phoneNumber="ngModel" maxlength="10" minlength="10" (blur)="trimField();"
+                                validate-event="blur" autocomplete="off" required>
+                            <span *ngIf="(assignee.phone_number && !phoneNumber.valid && assigneeForm.submitted)" class="error-text">Please enter a valid phone number.</span>
+                            <span *ngIf="!assignee.phone_number && assigneeForm.submitted" class="error-text">Phone number is required.</span>
+                            <span class="error-text" *ngIf="!!isPhoneNumberExist">Phone number already exist.</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group top_15">
+                        <label for="inputEmail3" class="col-sm-4 control-label">Password *</label>
+                        <div class="col-sm-8">
+                            <input type="password" name="password" [(ngModel)]="assignee.password" class="form-control border-radius-none" placeholder="Enter password"
+                                #password="ngModel" (blur)="trimField()" validate-event="blur" autocomplete="off" required>
+                            <span *ngIf="!password.valid && assigneeForm.submitted" class="error-text">Password is required.</span>
+                        </div>
+                    </div>
+                    <div class="top_15">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+
+        <ng-template #existingUser>
+            <div class="modal-header" style="background:#3c8dbc;color:#fff;">
+                <strong>NOTE : </strong>
+                <button type="button" class="close" (click)="modalRef2.hide();">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p>An user named
+                    <strong>{{existingUserToRelate.full_name}}</strong> with the email address
+                    <strong>{{existingUserToRelate.email}}</strong> already exists.</p>
+                <p>Do you want to add this user in your list?</p>
+                <div class="top_15">
+                    <button type="button" class="btn btn-primary" (click)="cancelAddingUser()">Cancel</button>
+                    <button type="button" class="btn btn-primary pull-right" (click)="addUserRelation()">Add</button>
+                </div>
+            </div>
+        </ng-template>
+
+
+        <!-- Add Assignee Modal end-->
+    </div>
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>

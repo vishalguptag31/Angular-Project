@@ -1,0 +1,180 @@
+<!-- Login and Signup form -->
+<div class="container-fluid login-bg">
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-12">
+        <div class="col-lg-10 margin-responive-left offset-2 col-md-10 col-sm-12 col-xs-12 my-5">
+          <div class="col-12">
+            <div class="col-10 offset-2">
+              <img src="./../../assets/images/logo.png" class="img-fluid text-center">
+              <div class="fg-color-black">
+                Organize
+                <span class="fg-color-blue">work</span> with Simpliahead
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 rend-info" *ngIf="!!displayResendLink">
+            <i style="position: absolute; right: 2px; top: 1px; z-index:1;" class="fa fa-times font-size16 fg-color-theme cursor-pointer"
+              (click)="closeMessageDiv()"></i>
+            <small [innerHtml]="errorMessage">
+            </small>
+            <strong *ngIf="!!displayResendLink">
+              <a (click)='resendLink()' class="font-size12">Resend Link</a>
+            </strong>
+          </div>
+          <!-- Show login Form -->
+
+          <div class="col-12" *ngIf="!!showLoginForm">
+            <form #loginForm="ngForm" (ngSubmit)="loginForm.valid && proceedLogin()" name="loginForm" novalidate>
+
+              <div class="cols-sm-10 mt-5">
+
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/mail.png">
+                    </span>
+                  </div>
+                  <!-- <input class="form-control input-control" placeholder="Enter email address" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+                  <input type="email" (blur)="trimField('login')" [(ngModel)]="login.email" class="form-control input-control" placeholder="Email address"
+                    pattern="^[a-zA-Z0-9](?!.*?[^\na-zA-Z0-9]{2}).*?[a-zA-Z0-9]{1,20}@(?:[a-zA-Z0-9-]{2,}\.)[a-zA-Z]{2,4}$"
+                    name="email" #email="ngModel" required>
+                </div>
+                <small *ngIf="(!login.email && loginForm.submitted)" class="error-text">Email field is required.</small>
+                <small *ngIf="(login.email && !email.valid && loginForm.submitted)" class="error-text">Please enter a valid email.</small>
+
+
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/lock.png">
+                    </span>
+                  </div>
+                  <!-- <input class="form-control input-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+
+                  <input type="password" [(ngModel)]="login.password" (blur)="trimField('login')" (keyup)="validateSpacePassword($event,'loginPassword')"
+                    class="form-control input-control" placeholder="Password" #password="ngModel" name="Password" required>
+                </div>
+                <small *ngIf="!password.valid && loginForm.submitted" class="error-text">Password field is required.</small>
+
+                <div class="col-lg-12 text-center">
+                  <!-- <button class="btn btn-theme text-center">Signup</button> -->
+                  <button type="submit" class="btn btn-theme text-center">LOGIN</button>
+                  <div class="fg-color-grey mt-4 bold">
+                    <p (click)="openSignupForm(loginForm)" class="cursor-pointer">SIGN UP NOW</p>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+          <!-- End Login Form -->
+
+          <!-- Show Signup form -->
+          <div class="col-12" *ngIf="!showLoginForm">
+            <form #signupForm="ngForm" (ngSubmit)="signupForm.valid && doSignup(signupForm)" name="signupForm" novalidate>
+
+              <div class="cols-sm-10 mt-5">
+
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon icon-border">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/user-img.png">
+                    </span>
+                  </div>
+                  <!-- <input  placeholder="Full Name" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+                  <input type="text" class="form-control input-control" name="full_name" placeholder="Enter full name" [(ngModel)]="signup.full_name"
+                    #full_name="ngModel" name="name" pattern="^[A-Za-záéíóúàèìòùäëïöüâêîôûçåøœß¡¿ñ*0-9 ^-]*[A-Za-záéíóúàèìòùäëïöüâêîôûçåøœß¡¿ñ][A-Za-z 0-9^-]*$"
+                    autocomplete="off" maxlength="120" (blur)="trimField('signup')" required>
+
+                </div>
+                <small *ngIf="!full_name.valid && signupForm.submitted" class="error-text">Please enter a valid full name.</small>
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/mail.png">
+                    </span>
+                  </div>
+                  <!-- <input class="form-control input-control" placeholder="Enter email address" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+                  <input type="email" (blur)="trimField('signup')" [(ngModel)]="signup.email" class="form-control input-control" placeholder="Email address"
+                    pattern="^[a-zA-Z0-9](?!.*?[^\na-zA-Z0-9]{2}).*?[a-zA-Z0-9]{1,20}@(?:[a-zA-Z0-9-]{2,}\.)[a-zA-Z]{2,4}$"
+                    name="email" #email="ngModel" required>
+                </div>
+                <small *ngIf="(!signup.email && signupForm.submitted)" class="error-text">Email field is required.</small>
+                <small *ngIf="(signup.email && !email.valid && signupForm.submitted)" class="error-text">Please enter a valid email.</small>
+
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon icon-border">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/user-img.png">
+                    </span>
+                  </div>
+                  <!-- <input  placeholder="Full Name" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+                  <input type="text" name="phone_number" [(ngModel)]="signup.phone_number" class="form-control input-control" placeholder="Enter phone number"
+                    pattern="^[0-9]*$" required #phone_number="ngModel" maxlength="10" minlength="10" validate-event="blur"
+                    autocomplete="off" required>
+                </div>
+                <span *ngIf="(signup.phone_number && !phone_number.valid && signupForm.submitted)" class="error-text">Please enter a valid phone number.</span>
+                <span *ngIf="!signup.phone_number && signupForm.submitted" class="error-text">Phone number is required.</span>
+
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/lock.png">
+                    </span>
+                  </div>
+                  <!-- <input class="form-control input-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+                  <input type="password" [(ngModel)]="signup.password" (blur)="trimField('signup')" (keyup)="validateSpacePassword($event,'signupPassword')"
+                    class="form-control input-control" minlength="5" placeholder="Password" #password="ngModel" name="Password" required>
+                </div>
+                <small *ngIf="!password.valid && signupForm.submitted" class="error-text">Required (minimum five characters)</small>
+                
+                <div class="input-group mb-5">
+                  <div class="input-group-prepend icon">
+                    <span class="input-group-text" id="basic-addon1">
+                      <img class="input-img" src="./../../assets/images/lock.png">
+                    </span>
+                  </div>
+                  <!-- <input class="form-control input-control" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1" type="text"> -->
+                  <input type="password" [(ngModel)]="signup.confirm_password" (blur)="trimField('signup')" (keyup)="validateSpacePassword($event,'confirmPassword')"
+                    class="form-control input-control" placeholder="Confirm Password" #confirm_password="ngModel" name="confirm_password"
+                    required>
+                </div>
+                <small *ngIf="!confirm_password.valid && signupForm.submitted" class="error-text">Confirm password field is required.</small>
+                <small *ngIf="!!confirmPasswordError" class="error-text">Confirm password does not match </small>
+
+                <div class="col-lg-12 text-center">
+                  <!-- <button class="btn btn-theme text-center">Signup</button> -->
+                  <button type="submit" class="btn btn-theme text-center">Signup</button>
+                  <div class="fg-color-grey mt-4 bold">
+                    <p (click)="openLoginForm(signupForm)" class="cursor-pointer">ALREADY A MEMBER?</p>
+                  </div>
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+          <!-- End Signup form -->
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 p-5">
+        <img src="./../../assets/images/bg_right.png" class="img-fluid">
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- login -->
+
+
+<ngx-loading [show]="enableLoader" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
